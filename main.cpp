@@ -1,5 +1,8 @@
 #include <iostream>
+
+static const char c_git_revision[]=
 #include "revision.hpp"
+;
 
 int main()
 {
