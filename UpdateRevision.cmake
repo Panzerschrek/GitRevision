@@ -1,3 +1,5 @@
+option(OUTPUT_HEADER_PATH "Path to output header file" "")
+
 find_package(Git REQUIRED)
 
 execute_process(
@@ -10,14 +12,12 @@ set(
 	HEADER_CONTENT
 	"\"${GIT_CURRENT_COMMIT_HASH}\"" )
 
-set(FILE_PATH ${CMAKE_CURRENT_BINARY_DIR}/revision.hpp)
-
 # Revrite header file only if it's content different, than current content.
 # This neads, because we whant to rebuild dependent files only if revision changed.
-if(EXISTS ${FILE_PATH})
+if(EXISTS ${OUTPUT_HEADER_PATH})
 	file(
 		READ
-		${FILE_PATH}
+		${OUTPUT_HEADER_PATH}
 		FILE_CONTENT_PREV
 		)
 endif()
@@ -25,7 +25,7 @@ endif()
 if(NOT HEADER_CONTENT STREQUAL FILE_CONTENT_PREV)
 	file(
 		WRITE
-		${FILE_PATH}
+		${OUTPUT_HEADER_PATH}
 		${HEADER_CONTENT}
 		)
 	message( "Update git revison header: ${GIT_CURRENT_COMMIT_HASH}")
